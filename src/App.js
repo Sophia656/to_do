@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import TaskList from './components/TaskList';
+import { AuthContext } from './components/context';
 import TaskPage from './TaskPage';
 import TrashPage from './TrashPage';
 
@@ -21,21 +21,31 @@ function App() {
   }
 
   const removeTask = (post) => {
-    setTaskList(taskList.filter(p => p.id !== post.id))
+      const find = taskList.find(p => p.id === post.id)
+    setTaskList(taskList.filter(p => p.id !== post.id));
+      setTrashList([...trashList, find]);
+    // }
+    console.log('task', taskList)
   }
-  
-  const addToTrash = () => {
-    if (removeTask) {
-      setTaskList([...taskList, task]);
-    }
-  }
-
+  console.log('trash', trashList)
 
   return (
-    <Routes>
-      <Route path='/' element={<TaskPage task={task} setTask={setTask} addNewTask={addNewTask} taskList={taskList} removeTask={removeTask} addToTrash={addToTrash} />} />
-      <Route path='/trash' element={<TrashPage />} />
-    </Routes>
+    <AuthContext.Provider value={{trashList}}>
+      <Routes>
+        <Route 
+          path='/' 
+          element={<TaskPage 
+              task={task} 
+              setTask={setTask} 
+              addNewTask={addNewTask} 
+              taskList={taskList} 
+              removeTask={removeTask}
+            />
+          } 
+        />
+        <Route path='/trash' element={<TrashPage task={task}/>} />
+      </Routes>
+    </AuthContext.Provider>
   );
 }
 

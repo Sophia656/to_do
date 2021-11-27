@@ -1,7 +1,7 @@
 import React from 'react';
 import cl from './TaskList.module.css';
 
-const TaskList = ({taskList, removeTask}) => {
+const TaskList = ({taskList, removeTask, addToTrash}) => {
     return (
         <div className={cl.list}>
             {taskList.map((post, index) =>

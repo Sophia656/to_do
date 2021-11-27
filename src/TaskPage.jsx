@@ -1,10 +1,11 @@
 import React from 'react';
 import TaskList from './components/TaskList';
 
-const TaskPage = ({task, setTask, addNewTask, taskList, removeTask}) => {
+const TaskPage = ({task, setTask, addNewTask, taskList, removeTask, trashList}) => {
+
     return (
         <div>
-
+            <div style={{color: 'red'}}>{trashList}</div>
       <div >
         <form className='form'>
           <input className='form__item' value={task} onChange={(e) => setTask(e.target.value)} type='text' placeholder='create' />
