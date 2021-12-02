@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import { AuthContext } from './components/context';
@@ -9,6 +9,8 @@ function App() {
   const [taskList, setTaskList] = useState([]);
   const [task, setTask] = useState('');
   const [trashList, setTrashList] = useState([]);
+  const [selectTask, setSelectTask] = useState([]); // массив выбранных постов
+  const [bool, setBool] = useState(false); // если true, добавляем css cl на кнопку
 
   const addNewTask = (e) => {
     e.preventDefault();
@@ -21,16 +23,24 @@ function App() {
   }
 
   const removeTask = (post) => {
-      const find = taskList.find(p => p.id === post.id)
+    const find = taskList.find(p => p.id === post.id)
     setTaskList(taskList.filter(p => p.id !== post.id));
-      setTrashList([...trashList, find]);
-    // }
-    console.log('task', taskList)
+    setTrashList([...trashList, find]);
   }
-  console.log('trash', trashList)
+  //SELECT POST
+  const selectPost = (post) => {
+    const selectItem = trashList.find(p => p.id === post.id);
+    setSelectTask(selectTask.filter(p => p.id !== post.id));
+    setSelectTask([...selectTask, selectItem]); 
 
+    if (selectItem) {
+      setBool(true) 
+      console.log(bool)
+    }
+  }
+  console.log('selectTask', selectTask);
   return (
-    <AuthContext.Provider value={{trashList}}>
+    <AuthContext.Provider value={{trashList, setTrashList, selectPost, bool, setSelectTask}}>
       <Routes>
         <Route 
           path='/' 

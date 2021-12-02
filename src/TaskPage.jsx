@@ -1,21 +1,18 @@
 import React from 'react';
 import TaskList from './components/TaskList';
 
-const TaskPage = ({task, setTask, addNewTask, taskList, removeTask, trashList}) => {
+const TaskPage = ({task, setTask, addNewTask, taskList, removeTask}) => {
 
     return (
-        <div>
-            <div style={{color: 'red'}}>{trashList}</div>
-      <div >
-        <form className='form'>
-          <input className='form__item' value={task} onChange={(e) => setTask(e.target.value)} type='text' placeholder='create' />
-          <button className='form__item' onClick={addNewTask}>Add new task</button>
-        </form>
-      </div>
-
-      <TaskList taskList={taskList} removeTask={removeTask}/>
-
-    </div>
+        <div className='wrapper'>
+            <div>
+                <form className='form'>
+                    <input className='form__input' value={task} onChange={(e) => setTask(e.target.value)} type='text' placeholder='CREATE NEW TASK' />
+                    <button className='form__btn' onClick={addNewTask}>ADD NEW TASK</button>
+                </form>
+            </div>
+            <TaskList taskList={taskList} removeTask={removeTask}/>
+        </div>
     );
 };
 
