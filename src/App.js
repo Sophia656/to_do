@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import { AuthContext } from './components/context';
@@ -27,6 +27,7 @@ function App() {
     setTaskList(taskList.filter(p => p.id !== post.id));
     setTrashList([...trashList, find]);
   }
+
   //SELECT POST
   const selectPost = (post) => {
     const selectItem = trashList.find(p => p.id === post.id);
@@ -38,9 +39,11 @@ function App() {
       console.log(bool)
     }
   }
+
   console.log('selectTask', selectTask);
+  
   return (
-    <AuthContext.Provider value={{trashList, setTrashList, selectPost, bool, setSelectTask}}>
+    <AuthContext.Provider value={{trashList, setTrashList, selectPost, bool, setSelectTask, selectTask}}>
       <Routes>
         <Route 
           path='/' 

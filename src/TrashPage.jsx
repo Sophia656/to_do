@@ -4,22 +4,31 @@ import cl from './TrashPage.module.css';
 
 const TrashPage = () => {
 
-const {trashList, setTrashList, selectPost, bool, setSelectTask} = useContext(AuthContext);
+const {trashList, setTrashList, selectPost, bool, setSelectTask, selectTask} = useContext(AuthContext);
 
 const cleadAll = () => {
     setTrashList([]);
     setSelectTask([]);
 }
 
-const clearedSelectTask = (post) => {
+const clearSelectTasks = (post) => {
     // типо if selectTask === trashlist(даже если for по каждому массиву и сравнить id - не работает) -> trashlist.filter
+    
+    if (trashList.id === selectTask.id){ //undef
+        console.log('yup')
+        // setTrashList(trashList.filter(p => p.id !== post.id)); // удаляет последн элем в списке
+        setTrashList(trashList.filter(p => p.id === post.id)); // оставляет только последн элем
+        setSelectTask([]);
+    }
 } 
+
 const classes = [cl.trash__task__btn];
 // по идее
 if (bool) {
     classes.push(cl.choose) // добавляется на ВСЕ элем - ???
 }
 // но это не работает
+
     return (
         <div className={cl.trash__list}>
             {trashList.map((post, index) =>
@@ -28,10 +37,10 @@ if (bool) {
                         <span className={cl.trash__task}>
                             {index + 1}. {post.task}
                         </span>
-                        <button className={classes.join(' ')} onChange={() => clearedSelectTask(post)} onClick={() => selectPost(post)}/>
+                        <button className={classes.join(' ')} onChange={() => clearSelectTasks(post)} onClick={() => selectPost(post)}/>
                     </div>
                     <div className={cl.trash__btns__wrapper}>
-                        <button className={cl.trash__btns} onChange={() => selectPost(post)}  onClick={() => clearedSelectTask(post)}>CLEAR SELECTED TASKS</button>
+                        <button className={cl.trash__btns} onChange={() => selectPost(post)}  onClick={() => clearSelectTasks(post)}>CLEAR SELECTED TASKS</button>
                         <button className={cl.trash__btns} onClick={cleadAll}>CLEAR ALL</button>
                     </div>
                 </div>
