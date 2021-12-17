@@ -4,48 +4,42 @@ import cl from './TrashPage.module.css';
 
 const TrashPage = () => {
 
-const {trashList, setTrashList, selectPost, bool, setSelectTask, selectTask} = useContext(AuthContext);
+    const {trashList, setTrashList, selectPost, setSelectTask, selectTasksToReturn} = useContext(AuthContext);
 
-const cleadAll = () => {
-    setTrashList([]);
-    setSelectTask([]);
-}
-
-const clearSelectTasks = (post) => {
-    // типо if selectTask === trashlist(даже если for по каждому массиву и сравнить id - не работает) -> trashlist.filter
-    
-    if (trashList.id === selectTask.id){ //undef
-        console.log('yup')
-        // setTrashList(trashList.filter(p => p.id !== post.id)); // удаляет последн элем в списке
-        setTrashList(trashList.filter(p => p.id === post.id)); // оставляет только последн элем
+    const cleadAll = () => {
+        setTrashList([]);
         setSelectTask([]);
     }
-} 
+    const removeSelectPosts = () => {
+        setTrashList(trashList.filter(p => p.complited !== true));
+        setSelectTask([]);
+      }
 
-const classes = [cl.trash__task__btn];
-// по идее
-if (bool) {
-    classes.push(cl.choose) // добавляется на ВСЕ элем - ???
-}
-// но это не работает
-
+    const returnTasks = () => {
+        if (selectTasksToReturn) {
+            setTrashList(trashList.filter(p => p.complited !== true));
+            setSelectTask([]);
+        }
+    }
+    
     return (
         <div className={cl.trash__list}>
+
             {trashList.map((post, index) =>
                 <div key={post.id}>
-                    <div className={cl.trash__task__wrapper}>
+                    <label className={cl.trash__task__wrapper}>
                         <span className={cl.trash__task}>
                             {index + 1}. {post.task}
                         </span>
-                        <button className={classes.join(' ')} onChange={() => clearSelectTasks(post)} onClick={() => selectPost(post)}/>
-                    </div>
-                    <div className={cl.trash__btns__wrapper}>
-                        <button className={cl.trash__btns} onChange={() => selectPost(post)}  onClick={() => clearSelectTasks(post)}>CLEAR SELECTED TASKS</button>
-                        <button className={cl.trash__btns} onClick={cleadAll}>CLEAR ALL</button>
-                    </div>
+                        <input type='checkbox' onChange={() => selectTasksToReturn()} onClick={() => selectPost(post)}/>
+                    </label>
                 </div>
-                
             )}
+                <div className={cl.trash__btns__wrapper}>
+                    <button className={cl.trash__btns} onClick={() => returnTasks()}>RETURN</button>
+                    <button className={cl.trash__btns} onClick={() => removeSelectPosts()}>CLEAR SELECTED TASKS</button>
+                    <button className={cl.trash__btns} onClick={cleadAll}>CLEAR ALL</button>
+                </div>
         </div>
     );
 };

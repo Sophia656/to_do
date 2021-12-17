@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from './context';
 import cl from './TaskList.module.css';
 
 const TaskList = ({taskList, removeTask}) => {
 
-    //та же ситуация, но все прекрасно работает
+        const {returnPost} = useContext(AuthContext);
+
     return (
             <div className={cl.list}>
                 {taskList.map((post, index) =>
-                    <div className={cl.task} value={post} key={post.id}>
+                    <div className={cl.task} value={post} key={post.id} onChange={() => returnPost()}>
                         <span>{index + 1}. {post.task}</span>
                         <button className={cl.btn_del} onClick={() => removeTask(post)}>Delete</button>
                     </div>

@@ -9,13 +9,13 @@ function App() {
   const [taskList, setTaskList] = useState([]);
   const [task, setTask] = useState('');
   const [trashList, setTrashList] = useState([]);
-  const [selectTask, setSelectTask] = useState([]); // массив выбранных постов
-  const [bool, setBool] = useState(false); // если true, добавляем css cl на кнопку
+  const [selectTask, setSelectTask] = useState([]);
 
   const addNewTask = (e) => {
     e.preventDefault();
     const newTask = {
       id: Date.now(),
+      complited: false,
       task
     }
     setTaskList([newTask, ...taskList]);
@@ -28,22 +28,31 @@ function App() {
     setTrashList([...trashList, find]);
   }
 
-  //SELECT POST
+  //SELECT TASKS
   const selectPost = (post) => {
     const selectItem = trashList.find(p => p.id === post.id);
-    setSelectTask(selectTask.filter(p => p.id !== post.id));
-    setSelectTask([...selectTask, selectItem]); 
+    setSelectTask([...selectTask, selectItem]);
 
-    if (selectItem) {
-      setBool(true) 
-      console.log(bool)
-    }
+    trashList.map(p => {
+      if (p.id === post.id){
+        p.complited = !p.complited
+      }
+      return p
+    })
   }
 
-  console.log('selectTask', selectTask);
-  
+  // RETURN TASKS
+  const selectTasksToReturn = () => {
+    trashList.map(p => {
+      if(p.complited === true){
+        setTaskList([...taskList, p]);
+      }
+      return p
+    })
+  }
+
   return (
-    <AuthContext.Provider value={{trashList, setTrashList, selectPost, bool, setSelectTask, selectTask}}>
+    <AuthContext.Provider value={{trashList, setTrashList, selectPost, setSelectTask, selectTasksToReturn}}>
       <Routes>
         <Route 
           path='/' 
