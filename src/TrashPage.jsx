@@ -4,7 +4,7 @@ import cl from './TrashPage.module.css';
 
 const TrashPage = () => {
 
-    const {trashList, setTrashList, selectPost, setSelectTask, selectTasksToReturn} = useContext(AuthContext);
+    const {trashList, setTrashList, selectPost, setSelectTask, selectTasksToReturn, returnTasks} = useContext(AuthContext);
 
     const cleadAll = () => {
         setTrashList([]);
@@ -13,15 +13,7 @@ const TrashPage = () => {
     const removeSelectPosts = () => {
         setTrashList(trashList.filter(p => p.complited !== true));
         setSelectTask([]);
-      }
-
-    const returnTasks = () => {
-        if (selectTasksToReturn) {
-            setTrashList(trashList.filter(p => p.complited !== true));
-            setSelectTask([]);
-        }
     }
-    
     return (
         <div className={cl.trash__list}>
 
@@ -31,7 +23,11 @@ const TrashPage = () => {
                         <span className={cl.trash__task}>
                             {index + 1}. {post.task}
                         </span>
-                        <input type='checkbox' onChange={() => selectTasksToReturn()} onClick={() => selectPost(post)}/>
+                        <input 
+                        type='checkbox' 
+                        onChange={() => selectTasksToReturn()} 
+                        onClick={() => selectPost(post)}
+                        />
                     </label>
                 </div>
             )}

@@ -11,11 +11,13 @@ function App() {
   const [trashList, setTrashList] = useState([]);
   const [selectTask, setSelectTask] = useState([]);
 
+
   const addNewTask = (e) => {
     e.preventDefault();
     const newTask = {
       id: Date.now(),
       complited: false,
+      done: false,
       task
     }
     setTaskList([newTask, ...taskList]);
@@ -26,6 +28,7 @@ function App() {
     const find = taskList.find(p => p.id === post.id)
     setTaskList(taskList.filter(p => p.id !== post.id));
     setTrashList([...trashList, find]);
+    post.done = !post.done
   }
 
   //SELECT TASKS
@@ -51,8 +54,21 @@ function App() {
     })
   }
 
+  const returnTasks = () => {   
+    if (selectTasksToReturn) {
+        setTrashList(trashList.filter(p => p.complited !== true));
+        setSelectTask([]);
+    }
+  }
+  trashList.map(p => {
+    if(returnTasks){
+      p.done = !p.done
+    }
+    return p
+  })
+
   return (
-    <AuthContext.Provider value={{trashList, setTrashList, selectPost, setSelectTask, selectTasksToReturn}}>
+    <AuthContext.Provider value={{trashList, setTrashList, selectPost, setSelectTask, selectTasksToReturn, returnTasks}}>
       <Routes>
         <Route 
           path='/' 
