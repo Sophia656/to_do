@@ -1,41 +1,23 @@
-import React, { useState } from 'react';
-import cl from './TaskList.module.css';
+import React from 'react';
+import s from './TaskList.module.css';
 
-const TaskList = ({taskList, removeTask}) => {
+const TaskList = ({tasksList, removeTask, doneTask}) => {
 
-    const changeComplited = (post) => {
-        if(post.complited === true) {
-            taskList.map(p => {
-                if (p.id === post.id){
-                    p.complited = !p.complited
-                }
-                return p
-            })
-        }
-    }
-    const doneTask = (post) => {
-        taskList.map(p => {
-            if (p.id === post.id){
-              p.done = !p.done
-            }
-            return p
-        })
-    }
-    
     return (
-            <div className={cl.list}>
-                {taskList.map((post, index) =>
-                    <div  
-                    value={post} 
-                    key={post.id}
-                    className={post.done === true ? cl.cross_out : cl.task}
-                    onClick={() => doneTask(post)}
-                    >
-                        <span>{index + 1}. {post.task}</span>
+            <div className={s.list}>
+                {tasksList.map((task, index) =>
+                
+                    <div value={task} key={task.id}>
+                        <span
+                        className={task.done === true ? s.cross_out : s.task}
+                        onClick={() => doneTask(task)}
+                        >
+                            {index + 1}. {task.newTask}
+                        </span>
 
                         <button 
-                        className={cl.btn_del} 
-                        onClick={() => {removeTask(post); changeComplited(post)}}
+                        className={s.btn_del} 
+                        onClick={() => removeTask(task)}
                         >
                             Delete
                         </button>

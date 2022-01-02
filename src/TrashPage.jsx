@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { AuthContext } from './components/context';
-import cl from './TrashPage.module.css';
+import s from './TrashPage.module.css';
 
 const TrashPage = () => {
 
@@ -10,31 +10,40 @@ const TrashPage = () => {
         setTrashList([]);
         setSelectTask([]);
     }
+
     const removeSelectPosts = () => {
-        setTrashList(trashList.filter(p => p.complited !== true));
+        setTrashList(trashList.filter(currentTask => currentTask.complited !== true));
         setSelectTask([]);
     }
-    return (
-        <div className={cl.trash__list}>
+    
+    trashList.map(currentTask => {
+        if (currentTask.done === true){
+            currentTask.done = !currentTask.done
+        }
+        return currentTask
+    })
 
-            {trashList.map((post, index) =>
-                <div key={post.id}>
-                    <label className={cl.trash__task__wrapper}>
-                        <span className={cl.trash__task}>
-                            {index + 1}. {post.task}
+    return (
+        <div className={s.trash__list}>
+
+            {trashList.map((task, index) =>
+                <div key={task.id}>
+                    <label className={s.trash__task__wrapper}>
+                        <span className={s.trash__task}>
+                            {index + 1}. {task.newTask}
                         </span>
                         <input 
                         type='checkbox' 
                         onChange={() => selectTasksToReturn()} 
-                        onClick={() => selectPost(post)}
+                        onClick={() => selectPost(task)}
                         />
                     </label>
                 </div>
             )}
-                <div className={cl.trash__btns__wrapper}>
-                    <button className={cl.trash__btns} onClick={() => returnTasks()}>RETURN</button>
-                    <button className={cl.trash__btns} onClick={() => removeSelectPosts()}>CLEAR SELECTED TASKS</button>
-                    <button className={cl.trash__btns} onClick={cleadAll}>CLEAR ALL</button>
+                <div className={s.trash__btns__wrapper}>
+                    <button className={s.trash__btns} onClick={() => returnTasks()}>RETURN</button>
+                    <button className={s.trash__btns} onClick={() => removeSelectPosts()}>CLEAR SELECTED TASKS</button>
+                    <button className={s.trash__btns} onClick={cleadAll}>CLEAR ALL</button>
                 </div>
         </div>
     );

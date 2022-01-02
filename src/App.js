@@ -5,66 +5,66 @@ import { AuthContext } from './components/context';
 import TaskPage from './TaskPage';
 import TrashPage from './TrashPage';
 
-function App() {
-  const [taskList, setTaskList] = useState([]);
-  const [task, setTask] = useState('');
+const App = () => {
+  const [tasksList, setTasksList] = useState([]);
+  const [newTask, setNewTask] = useState('');
   const [trashList, setTrashList] = useState([]);
   const [selectTask, setSelectTask] = useState([]);
 
 
   const addNewTask = (e) => {
     e.preventDefault();
-    const newTask = {
+    const createTask = {
       id: Date.now(),
-      complited: false,
       done: false,
-      task
+      complited: false,
+      newTask
     }
-    setTaskList([newTask, ...taskList]);
-    setTask('');
+    setTasksList([...tasksList, createTask]);
+    setNewTask('');
   }
 
-  const removeTask = (post) => {
-    const find = taskList.find(p => p.id === post.id)
-    setTaskList(taskList.filter(p => p.id !== post.id));
+  const removeTask = (task) => {
+    const find = tasksList.find(currentTask => currentTask.id === task.id)
+    setTasksList(tasksList.filter(currentTask => currentTask.id !== task.id));
     setTrashList([...trashList, find]);
-    post.done = !post.done
+    task.done = !task.done
   }
 
   //SELECT TASKS
-  const selectPost = (post) => {
-    const selectItem = trashList.find(p => p.id === post.id);
+  const selectPost = (task) => {
+    const selectItem = trashList.find(currentTask => currentTask.id === task.id);
     setSelectTask([...selectTask, selectItem]);
 
-    trashList.map(p => {
-      if (p.id === post.id){
-        p.complited = !p.complited
+    trashList.map(currentTask => {
+      if (currentTask.id === task.id){
+        currentTask.complited = !currentTask.complited
       }
-      return p
+      return currentTask
     })
   }
 
   // RETURN TASKS
   const selectTasksToReturn = () => {
-    trashList.map(p => {
-      if(p.complited === true){
-        setTaskList([...taskList, p]);
+    trashList.map(currentTask => {
+      if (currentTask.complited === true){
+        setTasksList([...tasksList, currentTask]);
       }
-      return p
+      return currentTask
     })
   }
 
   const returnTasks = () => {   
     if (selectTasksToReturn) {
-        setTrashList(trashList.filter(p => p.complited !== true));
-        setSelectTask([]);
+      setTrashList(trashList.filter(currentTask => currentTask.complited !== true));
+      setSelectTask([]);
     }
   }
-  trashList.map(p => {
+  trashList.map(currentTask => {
     if(returnTasks){
-      p.done = !p.done
+      currentTask.done = !currentTask.done
     }
-    return p
+    return currentTask
   })
 
   return (
@@ -73,15 +73,16 @@ function App() {
         <Route 
           path='/' 
           element={<TaskPage 
-              task={task} 
-              setTask={setTask} 
+              newTask={newTask} 
+              setNewTask={setNewTask} 
               addNewTask={addNewTask} 
-              taskList={taskList} 
+              tasksList={tasksList} 
               removeTask={removeTask}
+              setTasksList={setTasksList}
             />
           } 
         />
-        <Route path='/trash' element={<TrashPage task={task}/>} />
+        <Route path='/trash' element={<TrashPage newTask={newTask}/>} />
       </Routes>
     </AuthContext.Provider>
   );
