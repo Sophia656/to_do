@@ -11,7 +11,7 @@ const App = () => {
   const [trashList, setTrashList] = useState([]);
   const [selectTask, setSelectTask] = useState([]);
 
-
+  //ADD TASK
   const addNewTask = (e) => {
     e.preventDefault();
     const createTask = {
@@ -23,7 +23,13 @@ const App = () => {
     setTasksList([...tasksList, createTask]);
     setNewTask('');
   }
+  const handleKeyPress = (e) => {
+    if (e.key === 'Shift') {
+      addNewTask()
+    }
+  }
 
+  //REMOVE TASK
   const removeTask = (task) => {
     const find = tasksList.find(currentTask => currentTask.id === task.id)
     setTasksList(tasksList.filter(currentTask => currentTask.id !== task.id));
@@ -45,34 +51,40 @@ const App = () => {
   }
 
   // RETURN TASKS
-  const selectTasksToReturn = () => {
+  const returnTasks = () => {  
     trashList.map(currentTask => {
-      if (currentTask.complited === true){
-        setTasksList([...tasksList, currentTask]);
+      if (currentTask.complited === true) {
+        const foundTasks = trashList.filter(currentTask => currentTask.complited === true);
+        setTrashList(trashList.filter(currentTask => currentTask.complited !== true));
+
+        foundTasks.map(currentTask => {
+          if (currentTask.complited === true) {
+            currentTask.complited = !currentTask.complited
+          }
+          return currentTask
+        })
+
+        setTasksList([...tasksList, ...foundTasks])
+        setSelectTask([]);
       }
       return currentTask
-    })
+    }) 
   }
 
-  const returnTasks = () => {   
-    if (selectTasksToReturn) {
-      setTrashList(trashList.filter(currentTask => currentTask.complited !== true));
-      setSelectTask([]);
-    }
-  }
   trashList.map(currentTask => {
     if(returnTasks){
       currentTask.done = !currentTask.done
     }
     return currentTask
   })
-
+  
   return (
-    <AuthContext.Provider value={{trashList, setTrashList, selectPost, setSelectTask, selectTasksToReturn, returnTasks}}>
+    <AuthContext.Provider value={{trashList, setTrashList, selectPost, setSelectTask, returnTasks}}>
       <Routes>
         <Route 
           path='/' 
           element={<TaskPage 
+            handleKeyPress={handleKeyPress}
               newTask={newTask} 
               setNewTask={setNewTask} 
               addNewTask={addNewTask} 

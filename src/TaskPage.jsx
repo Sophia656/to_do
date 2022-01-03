@@ -1,7 +1,7 @@
 import React from 'react';
 import TaskList from './components/TaskList';
 
-const TaskPage = ({newTask, setNewTask, addNewTask, tasksList, removeTask, complitedTask, setTasksList}) => {
+const TaskPage = ({newTask, setNewTask, addNewTask, tasksList, removeTask, complitedTask, setTasksList, handleKeyPress}) => {
     
     const doneTask = (task) => {
         const newList = tasksList.map(currentTask => {
@@ -20,6 +20,7 @@ const TaskPage = ({newTask, setNewTask, addNewTask, tasksList, removeTask, compl
                     <input 
                     className='form__input' 
                     value={newTask} 
+                    onKeyPress={handleKeyPress}
                     onChange={(e) => setNewTask(e.target.value)} 
                     type='text' 
                     placeholder='CREATE NEW TASK' 

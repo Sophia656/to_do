@@ -7,7 +7,7 @@ const TaskList = ({tasksList, removeTask, doneTask}) => {
             <div className={s.list}>
                 {tasksList.map((task, index) =>
                 
-                    <div value={task} key={task.id}>
+                    <div value={task} key={task.id} className={s.task}>
                         <span
                         className={task.done === true ? s.cross_out : s.task}
                         onClick={() => doneTask(task)}

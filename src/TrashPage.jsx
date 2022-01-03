@@ -4,7 +4,7 @@ import s from './TrashPage.module.css';
 
 const TrashPage = () => {
 
-    const {trashList, setTrashList, selectPost, setSelectTask, selectTasksToReturn, returnTasks} = useContext(AuthContext);
+    const {trashList, setTrashList, selectPost, setSelectTask, returnTasks} = useContext(AuthContext);
 
     const cleadAll = () => {
         setTrashList([]);
@@ -34,7 +34,6 @@ const TrashPage = () => {
                         </span>
                         <input 
                         type='checkbox' 
-                        onChange={() => selectTasksToReturn()} 
                         onClick={() => selectPost(task)}
                         />
                     </label>
