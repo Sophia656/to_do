@@ -77,3 +77,12 @@
     font-size: 1.1rem;
     color: rgb(197, 197, 197);
   }
+
+  @media (max-width: 1024px) {
+    .trash__list {
+      height: 81vh;
+    }
+    .trash__btns {
+      height: 4rem;
+    }
+  }

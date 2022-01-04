@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { AuthContext } from './components/context';
+import { DataContext } from './components/context';
 import s from './TrashPage.module.css';
 
 const TrashPage = () => {
 
-    const {trashList, setTrashList, selectPost, setSelectTask, returnTasks} = useContext(AuthContext);
+    const {trashList, setTrashList, selectPost, setSelectTask, returnTasks} = useContext(DataContext);
 
     const cleadAll = () => {
         setTrashList([]);

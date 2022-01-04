@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { DataContext } from './components/context';
 import TaskList from './components/TaskList';
 
-const TaskPage = ({newTask, setNewTask, addNewTask, tasksList, removeTask, complitedTask, setTasksList, handleKeyPress}) => {
+const TaskPage = () => {
+
+    const {newTask, setNewTask, addNewTask, tasksList, removeTask, complitedTask, setTasksList, handleKeyPress} = useContext(DataContext);
     
     const doneTask = (task) => {
         const newList = tasksList.map(currentTask => {

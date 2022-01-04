@@ -42,6 +42,14 @@
     border: 2px solid rgb(177, 176, 176);
     color: rgb(216, 216, 216);
     width: 8rem;
+    height: 3rem;
     font-size: 1.2rem;
     padding: 5px;
+    margin-bottom: 1vh;
+}
+
+@media (max-width: 1024px) {
+    .btn_del {
+        width: 5rem;
+    }
 }

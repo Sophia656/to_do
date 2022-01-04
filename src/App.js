@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import { AuthContext } from './components/context';
-import TaskPage from './TaskPage';
-import TrashPage from './TrashPage';
+import { AuthContext, DataContext } from './components/context';
+import AppRouter from './AppRouter';
+import NavBar from './NavBar';
 
 const App = () => {
   const [tasksList, setTasksList] = useState([]);
   const [newTask, setNewTask] = useState('');
   const [trashList, setTrashList] = useState([]);
   const [selectTask, setSelectTask] = useState([]);
+  const [isAuth, setIsAuth] = useState(false);
 
   //ADD TASK
   const addNewTask = (e) => {
@@ -79,23 +79,24 @@ const App = () => {
   })
   
   return (
-    <AuthContext.Provider value={{trashList, setTrashList, selectPost, setSelectTask, returnTasks}}>
-      <Routes>
-        <Route 
-          path='/' 
-          element={<TaskPage 
-            handleKeyPress={handleKeyPress}
-              newTask={newTask} 
-              setNewTask={setNewTask} 
-              addNewTask={addNewTask} 
-              tasksList={tasksList} 
-              removeTask={removeTask}
-              setTasksList={setTasksList}
-            />
-          } 
-        />
-        <Route path='/trash' element={<TrashPage newTask={newTask}/>} />
-      </Routes>
+    <AuthContext.Provider value={{isAuth, setIsAuth}}>
+    <DataContext.Provider 
+      value={{trashList,
+      handleKeyPress,
+      newTask,
+      setNewTask,
+      addNewTask,
+      tasksList,
+      removeTask,
+      setTasksList,
+      setTrashList, 
+      selectPost, 
+      setSelectTask, 
+      returnTasks}}
+    >
+      <NavBar />
+      <AppRouter />
+    </DataContext.Provider>
     </AuthContext.Provider>
   );
 }
